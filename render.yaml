@@ -2,4 +2,11 @@ services:
   - name: diary-app
     type: web
     env: docker
-    startCommand: "bundle exec rails server -b 0.0.0.0 -p $PORT
+    buildCommand: "bundle install"
+    startCommand: "bundle exec rails server -b 0.0.0.0 -p $PORT"
+    plan: free
+    envVars:
+      - key: RAILS_ENV
+        value: production
+      - key: PORT
+        value: 3000

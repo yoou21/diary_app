@@ -25,4 +25,3 @@ EXPOSE 3000
 
 # アプリケーションの起動コマンド
 CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "$PORT"]
-
