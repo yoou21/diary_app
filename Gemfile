@@ -5,7 +5,7 @@ ruby "3.2.6"
 
 gem "rails", "~> 7.0.8"
 gem "sprockets-rails"
-gem "pg", "~> 1.4"
+gem "mysql2", ">= 0.5" # MySQL のみを利用
 gem "puma", "~> 5.0"
 gem "importmap-rails"
 gem "turbo-rails"
@@ -26,10 +26,4 @@ end
 group :test do
   gem "capybara"
   gem "selenium-webdriver"
-end
-
-group :production do
-  gem "pg", "~> 1.4"
-  gem "redis", "~> 4.0"  # 必要なら追加
-  gem "sassc-rails"      # 必要なら追加
 end

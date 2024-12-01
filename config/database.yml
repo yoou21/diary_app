@@ -1,20 +1,18 @@
 default: &default
-  adapter: postgresql
-  encoding: unicode
+  adapter: mysql2
+  encoding: utf8
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: <%= ENV.fetch("DATABASE_HOST", "localhost") %>
-  username: <%= ENV.fetch("POSTGRES_USER", "your_username") %>
-  password: <%= ENV.fetch("POSTGRES_PASSWORD", "your_password") %>
-  database: <%= ENV.fetch("POSTGRES_DB", "app_development") %>
+  username: root
+  password: <%= ENV.fetch("MYSQL_ROOT_PASSWORD") %>
+  host: db
+  database: <%= ENV.fetch("MYSQL_DATABASE") %>
 
 development:
   <<: *default
-  database: app_development
 
 test:
   <<: *default
-  database: app_test
+  database: <%= ENV.fetch("MYSQL_DATABASE") %>_test
 
 production:
   <<: *default
-  database: <%= ENV.fetch("POSTGRES_DB", "app_production") %>
