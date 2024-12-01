@@ -2,7 +2,7 @@
 FROM ruby:3.2
 
 # 必要なライブラリをインストール
-RUN apt-get update -qq && apt-get install -y nodejs npm
+RUN apt-get update -qq && apt-get install -y nodejs npm default-mysql-client
 
 # Yarn のインストール
 RUN npm install -g yarn
@@ -24,4 +24,4 @@ COPY . /app
 EXPOSE 3000
 
 # アプリケーションの起動コマンド
-CMD ["sh", "-c", "bundle exec rails server -b 0.0.0.0 -p ${PORT:-3000}"]
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "$PORT"]

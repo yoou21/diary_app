@@ -2,7 +2,9 @@ version: "3.9"
 services:
   db:
     image: mysql:8.0
+    container_name: diary_app-db-1
     environment:
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
     ports:
@@ -13,12 +15,11 @@ services:
   web:
     build: .
     command: bundle exec rails server -b 0.0.0.0 -p ${PORT:-3000}
-    working_dir: /app
-    volumes:
-      - .:/app
+    environment:
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_HOST: ${MYSQL_HOST}
     ports:
-      - "${PORT:-3000}:${PORT:-3000}"
-    depends_on:
-      - db
+    - "3000:3000" # ホストとコンテナのポートをマッピング
     env_file:
       - .env
