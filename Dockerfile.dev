@@ -1,0 +1,38 @@
+# ベースイメージ
+FROM ruby:3.2
+
+# 必要なライブラリをインストール
+RUN apt-get update -qq && \
+    apt-get install -y --no-install-recommends nodejs npm default-mysql-client && \
+    npm install -g yarn && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# 環境変数を設定
+ENV RAILS_ENV=production \
+    NODE_ENV=production \
+    LANG=C.UTF-8 \
+    TZ=Asia/Tokyo \
+    PORT=3000
+
+# 作業ディレクトリを設定
+WORKDIR /app
+
+# Gemfile と Gemfile.lock をコピー（依存関係インストール用）
+COPY Gemfile Gemfile.lock /app/
+
+# Bundler をインストール
+RUN gem install bundler && \
+    bundle install --jobs=4 --retry=3 --without development test
+
+# アプリケーション全体をコピー
+COPY . /app
+
+# アセットプリコンパイル（本番環境用）
+RUN bundle exec rake assets:precompile
+
+# ポートを公開
+EXPOSE $PORT
+
+# アプリケーションの起動コマンド
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "3000"]
