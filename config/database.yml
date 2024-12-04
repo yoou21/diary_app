@@ -12,7 +12,7 @@ development:
   database: diary_app_development
   username: root
   password: 'MySecurePass2024!'  # ここに設定したパスワードを確認
-  host: localhost
+  host: db
   port: 3306
 
 test:
@@ -20,7 +20,7 @@ test:
   database: diary_app_test
   username: root
   password: 'MySecurePass2024!'  # ここに設定したパスワードを入力
-  host: localhost
+  host: db 
   port: 3306
 
 production:

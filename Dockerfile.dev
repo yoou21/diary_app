@@ -1,10 +1,12 @@
-# ベースイメージ
 FROM ruby:3.2
 
 # 必要なライブラリをインストール
 RUN apt-get update -qq && \
-    apt-get install -y --no-install-recommends nodejs npm default-mysql-client && \
-    npm install -g yarn && \
+    apt-get install -y --no-install-recommends nodejs npm default-mysql-client curl && \
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+    apt-get update && \
+    apt-get install yarn && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -23,16 +25,16 @@ COPY Gemfile Gemfile.lock /app/
 
 # Bundler をインストール
 RUN gem install bundler && \
-    bundle install --jobs=4 --retry=3 --without development test
+    bundle install --jobs=4 --retry=3 --without development test RAILS_ENV=production
 
 # アプリケーション全体をコピー
 COPY . /app
 
 # アセットプリコンパイル（本番環境用）
-RUN bundle exec rake assets:precompile
+RUN bundle exec rake assets:precompile RAILS_ENV=production
 
 # ポートを公開
 EXPOSE $PORT
 
 # アプリケーションの起動コマンド
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "3000"]
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "$PORT"]
