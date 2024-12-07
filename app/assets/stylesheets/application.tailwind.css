@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* カスタムスタイルの追加 */
+header {
+  @apply bg-gray-100 p-4 text-center;
+}
+
+header nav ul {
+  @apply flex justify-center list-none p-0 m-0;
+}
+
+header nav ul li {
+  @apply mx-4;
+}
+
+footer {
+  @apply bg-gray-800 text-white text-center p-4;
+}

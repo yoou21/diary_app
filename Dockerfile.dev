@@ -1,16 +1,32 @@
 FROM ruby:3.3.6
 ENV LANG C.UTF-8
 ENV TZ Asia/Tokyo
-RUN apt-get update -qq \
-&& apt-get install -y ca-certificates curl gnupg \
-&& mkdir -p /etc/apt/keyrings \
-&& curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
-&& NODE_MAJOR=20 \
-&& echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list \
-&& wget --quiet -O - /tmp/pubkey.gpg https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
-&& echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs yarn vim
+
+# 基本的な依存関係のインストール
+RUN apt-get update -qq && apt-get install -y \
+    build-essential \
+    libpq-dev \
+    nodejs \
+    yarn \
+    vim \
+    wget \
+    unzip \
+    gnupg
+
+# Chromium と Chromium ドライバーのインストール
+RUN apt-get update -qq && apt-get install -y \
+    chromium \
+    chromium-driver
+
+# 作業ディレクトリの作成
 RUN mkdir /myapp
 WORKDIR /myapp
+
+# Bundler のインストール
 RUN gem install bundler
+
+# アプリケーションコードのコピー
 COPY . /myapp
+
+# アプリケーションの依存関係をインストール
+RUN bundle install
