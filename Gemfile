@@ -20,7 +20,8 @@ gem "cssbundling-rails"
 gem "jbuilder"
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
-
+gem "devise"
+gem "orm_adapter", "0.5.0"
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 
@@ -45,6 +46,9 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  # RSpec for testing [https://github.com/rspec/rspec-rails]
+  gem "rspec-rails", "~> 6.0.0"
 end
 
 group :development do
