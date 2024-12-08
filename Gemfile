@@ -53,13 +53,7 @@ group :development do
   gem "web-console"
 end
 
-group :test do
-  gem "capybara", "~> 3.40"
-  gem "selenium-webdriver", "~> 4.27"
-  gem "addressable", "~> 2.8"
-  gem "xpath", "~> 3.2"
-  gem "rubyzip", "~> 2.3"
-  gem "websocket", "~> 1.2"
-  gem "public_suffix", "~> 6.0"  # 修正: public_sguffix -> public_suffix
-  gem 'database_cleaner-active_record'
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'factory_bot_rails'
 end
