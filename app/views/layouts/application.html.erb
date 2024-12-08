@@ -22,7 +22,11 @@
     <%= render "shared/header" %>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
+
+    <!-- メインコンテンツの表示 -->
     <%= yield %>
+
+    <!-- 必要なスクリプトの追加 -->
     <%= yield :scripts %>
   </body>
 </html>
