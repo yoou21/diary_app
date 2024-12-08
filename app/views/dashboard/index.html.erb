@@ -1,0 +1,14 @@
+<h1>ダッシュボード</h1>
+
+<% if @goals.any? %>
+  <h2>目標一覧</h2>
+  <ul>
+    <% @goals.each do |goal| %>
+      <li><%= goal.title %> - <%= goal.status %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>目標はありません。</p>
+<% end %>
+
+<%= link_to '目標を追加する', new_goal_path, class: 'btn btn-primary' %>  <!-- 目標追加ボタン -->

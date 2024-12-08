@@ -3,6 +3,9 @@ Rails.application.routes.draw do
 
   get "home/index"
   devise_for :users # Deviseルーティングを有効化
+  resources :goals
+  # ダッシュボードのルートを追加
+  get 'dashboard', to: 'dashboard#index'
 
   # その他のルート
   get "up" => "rails/health#show", as: :rails_health_check
