@@ -1,0 +1,11 @@
+# test/fixtures/goals.yml
+
+one:
+  title: "Goal 1"
+  status: "active"
+  user_id: 1
+
+two:
+  title: "Goal 2"
+  status: "completed"
+  user_id: 1

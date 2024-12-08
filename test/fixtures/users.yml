@@ -1,0 +1,10 @@
+# test/fixtures/users.yml
+one:
+  email: test@example.com
+  password: Password123
+  password_confirmation: Password123
+
+two:
+  email: another@example.com
+  password: Password123
+  password_confirmation: Password123
