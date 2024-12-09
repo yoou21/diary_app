@@ -3,7 +3,9 @@ Rails.application.routes.draw do
 
   get "home/index"
   devise_for :users # Deviseルーティングを有効化
-  resources :goals
+  resources :goals, only: [:new, :create]
+  get '/goalform', to: 'goals#new'  # フォーム表示
+  post '/goals', to: 'goals#create' # フォーム送信
   # ダッシュボードのルート
   get 'dashboard', to: 'dashboard#index', as: 'dashboard'
   # その他のルート

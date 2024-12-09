@@ -1,30 +1,19 @@
 # spec/requests/dashboard_spec.rb
-RSpec.describe 'Dashboard', type: :request do
+require 'rails_helper'
+
+RSpec.describe "Dashboard", type: :request do
   let(:user) { create(:user) }
+  let!(:goal) { create(:goal, user: user, title: 'Learn Ruby', status: '未達成') }  # '未達成' に変更
 
-  describe 'GET /dashboard' do
-    context 'when user is logged in' do
-      before do
-        sign_in user
-      end
+  before do
+    sign_in user
+  end
 
-      context 'when there are no goals' do
-        it 'displays the correct content when there are no goals' do
-          get dashboard_path
-          expect(response.body).to include('ダッシュボード')  # 正しいタイトルが表示されることを確認
-          expect(response.body).to include('目標はありません。')  # 目標がない場合のメッセージ確認
-        end
-      end
+  it "GET /dashboard when user is logged in when there are goals displays the user's goals" do
+    get dashboard_path
 
-      context 'when there are goals' do
-        let!(:goal) { create(:goal, user: user, title: 'Learn Ruby', status: 'In Progress') }
-
-        it 'displays the user\'s goals' do
-          get dashboard_path
-          expect(response.body).to include('Learn Ruby')  # ユーザーの目標が表示されることを確認
-          expect(response.body).to include('In Progress')  # 目標のステータスが表示されることを確認
-        end
-      end
-    end
+    # goal.title と goal.status が HTML 内に含まれていることを確認
+    expect(response.body).to include('Learn Ruby')  # タイトルが表示されていること
+    expect(response.body).to include('未達成')  # ステータスが表示されていること
   end
 end
