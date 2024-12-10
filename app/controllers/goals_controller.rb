@@ -14,6 +14,20 @@ class GoalsController < ApplicationController
     end
   end
 
+  def index
+    @goals = Goal.all
+  end
+
+  def show
+    @goal = Goal.find(params[:id])
+  end
+
+  def destroy
+    @goal = current_user.goals.find(params[:id]) 
+    @goal.destroy
+    redirect_to dashboard_path, notice: '目標が削除されました。'
+  end
+
   private
 
   def goal_params

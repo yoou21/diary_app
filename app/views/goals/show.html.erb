@@ -1,0 +1,8 @@
+<!-- app/views/goals/show.html.erb -->
+
+<h1><%= @goal.title %> の詳細</h1>
+<p>締め切り: <%= @goal.deadline %></p>
+<p>ステータス: <%= @goal.status %></p>
+
+<%= link_to '日記を追加', new_diary_path(goal_id: @goal.id), class: 'btn btn-primary' %>
+
