@@ -10,6 +10,10 @@
     <%= form.select :status, ["未達成", "達成済み"] %>
   </div>
   <div>
+    <%= form.label :deadline, "締切日" %>
+    <%= form.date_field :deadline %>
+  </div>
+  <div>
     <%= form.submit "目標を追加する" %>
   </div>
 <% end %>

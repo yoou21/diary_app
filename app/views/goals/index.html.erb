@@ -1,0 +1,26 @@
+<!-- app/views/goals/index.html.erb -->
+
+<h1>目標一覧</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>目標</th>
+      <th>締め切り</th>
+      <th>詳細</th>
+      <th>削除</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @goals.each do |goal| %>
+      <tr>
+        <td><%= goal.name %></td>
+        <td><%= goal.deadline %></td>
+        <td><%= link_to '詳細', goal_path(goal) %></td>
+        <td>
+          <%= link_to '削除', goal_path(goal), method: :delete, data: { confirm: '本当に削除しますか？' } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

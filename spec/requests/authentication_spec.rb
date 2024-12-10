@@ -8,7 +8,7 @@ RSpec.describe 'Authentication', type: :request do
     it 'logs the user in with valid credentials' do
       post user_session_path, params: { user: { email: user.email, password: user.password } }
 
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(dashboard_path)
       follow_redirect!
       expect(response.body).to include('Signed in successfully.')
     end
