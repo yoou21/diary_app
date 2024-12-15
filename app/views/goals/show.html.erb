@@ -4,5 +4,4 @@
 <p>締め切り: <%= @goal.deadline %></p>
 <p>ステータス: <%= @goal.status %></p>
 
-<%= link_to '日記を追加', new_diary_path(goal_id: @goal.id), class: 'btn btn-primary' %>
-
+<%= link_to '日記を追加', new_goal_diary_path(@goal), class: 'btn btn-primary' %>

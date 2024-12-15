@@ -554,12 +554,24 @@ video {
   display: none;
 }
 
+.collapse {
+  visibility: collapse;
+}
+
 .inline {
   display: inline;
 }
 
 .table {
   display: table;
+}
+
+.border-collapse {
+  border-collapse: collapse;
+}
+
+.border {
+  border-width: 1px;
 }
 
 body {

@@ -1,15 +1,22 @@
 Rails.application.routes.draw do
-  root to: 'home#index' # トップページを設定
+  # トップページ
+  root to: 'home#index'
 
+  # Deviseルーティング
+  devise_for :users
+
+  # ホームページ
   get "home/index"
-  devise_for :users # Deviseルーティングを有効化
-  resources :goals, only: [:new, :create, :index, :show, :destroy]
-  resources :diaries
-  get '/goalform', to: 'goals#new'  # フォーム表示
-  post '/goals', to: 'goals#create' # フォーム送信
-  # ダッシュボードのルート
+
+  # ダッシュボード
   get 'dashboard', to: 'dashboard#index', as: 'dashboard'
-  # その他のルート
+
+  # 目標（goals）とそれに関連する日記（diaries）のルーティング
+  resources :goals, only: [:new, :create, :index, :show, :destroy] do
+    resources :diaries, only: [:new, :create, :index, :show, :destroy]
+  end
+
+  # PWA関連
   get "up" => "rails/health#show", as: :rails_health_check
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
