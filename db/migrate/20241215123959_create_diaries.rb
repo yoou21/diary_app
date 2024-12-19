@@ -1,6 +1,6 @@
 class CreateDiaries < ActiveRecord::Migration[7.2]
   def change
-    create_table :diaries do |t|
+    create_table :diaries, if_not_exists: true do |t|
       t.text :content
       t.string :emotion
       t.integer :intensity
