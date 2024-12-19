@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :goal do
-    title { "テスト目標" }
-    status { "未達成" }
+    title { "Sample Goal" }
     deadline { Date.today + 7.days }
-    association :user
+    status { "未達成" } # 有効なデフォルト値
+    association :user # ユーザーとの関連付け
   end
 end

@@ -58,3 +58,9 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'rails-controller-testing'
 end
+
+group :test do
+  gem 'capybara', '~> 3.39'
+  gem 'selenium-webdriver'
+  gem 'webdrivers' # ブラウザドライバーを自動管理するため
+end

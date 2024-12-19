@@ -24,9 +24,7 @@ RSpec.describe 'Authentication', type: :request do
   describe 'DELETE /users/sign_out' do
     it 'logs the user out' do
       sign_in user
-
       delete destroy_user_session_path
-
       expect(response).to redirect_to(root_path)
       follow_redirect!
       expect(response.body).to include('Signed out successfully.')
