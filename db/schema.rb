@@ -48,7 +48,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_08_115516) do
     t.bigint "goal_id", null: false
     t.index ["diary_id"], name: "index_emotions_on_diary_id"
     t.index ["goal_id"], name: "index_emotions_on_goal_id"
-    t.index ["user_id"], name: "index_emotions_on_user_id"
   end
 
   create_table "goals", force: :cascade do |t|

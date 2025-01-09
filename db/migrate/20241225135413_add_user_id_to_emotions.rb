@@ -1,6 +1,5 @@
 class AddUserIdToEmotions < ActiveRecord::Migration[7.2]
   def change
-    add_column :emotions, :user_id, :integer
-    add_index :emotions, :user_id
+    add_reference :emotions, :user, foreign_key: true
   end
 end
