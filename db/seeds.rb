@@ -14,14 +14,3 @@ end
 # デフォルトのGoalを作成
 goal = user.goals.find_or_create_by!(title: "Default Goal", status: "未達成", deadline: Date.today + 30.days)
 
-# ダミーのDiaryデータを作成
-100.times do
-  diary = Diary.new(
-    date: Faker::Date.backward(days: rand(1..365)),
-    emotion_data: ["喜び", "楽しい", "不安", "成功"].sample(2),  # ランダムな感情データを追加
-    user: user,  # ユーザーを関連付け
-    goal: goal   # Goalを関連付け
-  )
-  diary.calculate_emotion_score  # スコア計算
-  diary.save!  # Emotion score を計算し、保存
-end
