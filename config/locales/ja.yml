@@ -8,3 +8,8 @@ ja:
       signed_in: "ログインしました"
     failure:
       invalid: "メールアドレスまたはパスワードが正しくありません。"
+  errors:
+    messages:
+      not_saved: "保存できませんでした"
+      taken: "すでに存在します"
+      already_taken: "このメールアドレスはすでに使用されています"
