@@ -1,22 +1,32 @@
-<!-- app/views/dashboard/index.html.erb -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <% content_for :title, t("app.dashboard_title") %>
+</head>
+<body>
+  <h1>ダッシュボード</h1>
 
-<h1>ダッシュボード</h1>
+  <!-- 目標一覧 -->
+  <% if @goals.present? %>
+    <h2>目標一覧</h2>
+    <ul>
+      <% @goals.each do |goal| %>
+        <li>
+          <h3><%= goal.title %></h3>
+          <p>ステータス: <%= goal.status %></p>
+          <p>締め切り: <%= goal.deadline %></p>
+          <%= link_to '目標詳細', goal_path(goal), class: 'btn btn-info' %>
+          <%= link_to '日記を追加する', new_goal_diary_path(goal), class: 'btn btn-success' %> <!-- 目標に関連する日記追加ページ -->
+          <%= link_to '削除', goal_path(goal), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger' %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>目標はありません。</p>
+  <% end %>
 
-<% if @goals.any? %>
-  <h2>目標一覧</h2>
-  <ul>
-    <% @goals.each do |goal| %>
-      <li>
-        <h3><%= goal.title %></h3>
-        <p>ステータス: <%= goal.status %></p>
-        <p>締め切り: <%= goal.deadline %></p>
-        <p><%= link_to '目標詳細', goal_path(goal), class: 'btn btn-info' %></p>
-        <%= link_to '削除', goal_path(goal), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger' %>  <!-- 削除ボタン -->
-      </li>
-    <% end %>
-  </ul>
-<% else %>
-  <p>目標はありません。</p>
-<% end %>
-
-<%= link_to '目標を追加する', new_goal_path, class: 'btn btn-primary' %>  <!-- 目標追加ボタン -->
+  <%= link_to '目標を追加する', new_goal_path, class: 'btn btn-primary' %> <!-- 目標追加ボタン -->
+</body>
+</html>

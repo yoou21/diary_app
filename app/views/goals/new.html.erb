@@ -1,24 +1,35 @@
-<h1>新しい目標を追加</h1>
+<% content_for :title, "目標を作成" %>
+
+<h1>目標を作成</h1>
 
 <%= form_with model: @goal, local: true do |form| %>
+  <% if @goal.errors.any? %>
+    <div class="errors">
+      <h2>エラー</h2>
+      <ul>
+        <% @goal.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
   <div>
-    <%= form.label :title, "タイトル" %>
-    <%= form.text_field :title %>
+    <%= form.label :title, '目標名' %>
+    <%= form.text_field :title, required: true %>
   </div>
 
   <div>
-    <%= form.label :status, "目標の状態" %>
-    <%= form.select :status, ["未達成", "達成済み"] %>
+    <%= form.label :status, '目標の状態' %>
+    <%= form.select :status, ['未達成', '達成済み'], prompt: '状態を選択' %>
   </div>
 
   <div>
-    <%= form.label :deadline, "締切日" %>
-    <%= form.date_field :deadline %>
+    <%= form.label :deadline, '締め切り' %>
+    <%= form.date_select :deadline %>
   </div>
 
-  <div>
-    <%= form.submit "目標を追加する" %>
-  </div>
+  <%= form.submit '作成' %>
 <% end %>
 
-<%= link_to 'ダッシュボードに戻る', dashboard_path %>
+<%= link_to '戻る', goals_path %>

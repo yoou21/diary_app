@@ -1,7 +1,5 @@
 <h1><%= @goal.title %> の日記一覧</h1>
 
-<%= link_to "日記を追加", new_goal_diary_path(@goal) %>
-
 <table>
   <thead>
     <tr>
@@ -16,17 +14,19 @@
     <% @diaries.each do |diary| %>
       <tr>
         <td><%= diary.content %></td>
-        <td><%= diary.emotion %></td>
-        <td><%= diary.intensity %></td>
-        <td><%= diary.created_at.strftime("%Y年 %m月 %d日 %H:%M") %></td>
         <td>
-          <%= link_to "詳細", goal_diary_path(@goal, diary), class: "btn btn-info" %>
-          <%= link_to "削除", goal_diary_path(@goal, diary), method: :delete,
-                        data: { confirm: "本当に削除しますか？" }, class: "btn btn-danger" %>
+          <% emotion = diary.emotions.first %>
+          <%= emotion.present? ? emotion.name : "感情なし" %> <!-- 感情が存在する場合は名前を表示 -->
+        </td>
+        <td><%= diary.intensity %></td>
+        <td><%= diary.created_at.strftime('%Y年 %m月 %d日 %H:%M') %></td>
+        <td>
+          <%= link_to '詳細', goal_diary_path(@goal, diary) %>
+          <%= link_to '削除', goal_diary_path(@goal, diary), method: :delete, data: { confirm: '本当に削除しますか？' } %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<%= link_to "目標詳細に戻る", goal_path(@goal), class: "btn btn-secondary" %>
+<%= link_to '目標詳細に戻る', goal_path(@goal), class: 'btn btn-secondary' %>

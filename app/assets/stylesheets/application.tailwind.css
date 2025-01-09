@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "simple_calendar";
 
 body {
   font-family: Arial, sans-serif;
@@ -65,4 +66,40 @@ p {
 
 .btn:hover {
   opacity: 0.8;
+}
+
+.calendar-day {
+  border: 1px solid #ddd;
+  padding: 10px;
+  height: 100px;
+}
+
+.calendar__event {
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.has-emotion {
+  font-weight: bold;
+  color: white;
+}
+
+.emotion-name {
+  font-size: 12px;
+  display: block;
+}
+
+.simple-calendar .s,
+.simple-calendar .p,
+.simple-calendar .a,
+.simple-calendar .n,
+.simple-calendar .c {
+  display: none;
+}
+
+.calendar td div {
+  padding: 5px;
+  margin-top: 5px;
+  font-size: 12px;
+  border-radius: 5px;
 }

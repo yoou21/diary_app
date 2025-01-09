@@ -1,0 +1,40 @@
+<div class="simple-calendar">
+  <div class="calendar-heading">
+    <time datetime="<%= start_date.strftime('%Y-%m') %>" class="calendar-title"><%= t('date.month_names')[start_date.month] %> <%= start_date.year %></time>
+
+    <nav>
+      <%= link_to t('simple_calendar.previous', default: 'Previous'), calendar.url_for_previous_view %>
+      <%= link_to t('simple_calendar.today', default: 'Today'), calendar.url_for_today_view %>
+      <%= link_to t('simple_calendar.next', default: 'Next'), calendar.url_for_next_view %>
+    </nav>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <% date_range.slice(0, 7).each do |day| %>
+          <th><%= t('date.abbr_day_names')[day.wday] %></th>
+        <% end %>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% date_range.each_slice(7) do |week| %>
+        <tr>
+          <% week.each do |day| %>
+            <%= content_tag :td, class: calendar.td_classes_for(day) do %>
+              <% if @goal.present? %>
+                <% emotions_for_date = @goal.emotions.where(date: day) %>
+                <% emotions_for_date.each do |emotion| %>
+                  <%= content_tag :div, emotion.name, style: "background-color: #{emotion.emotion_color}; padding: 5px; margin: 2px; border-radius: 5px;" %>
+                <% end %>
+              <% else %>
+                <p>目標が見つかりませんでした。</p>
+              <% end %>
+            <% end %>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
