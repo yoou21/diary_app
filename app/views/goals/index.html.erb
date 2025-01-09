@@ -1,20 +1,13 @@
-<!-- app/views/goals/index.html.erb -->
-
 <h1>目標一覧</h1>
 
-<!-- ここに検索フォームを追加 -->
-<%= form_with url: goals_path, method: :get, local: true do |f| %>
-  <div>
-    <%= f.text_field :search, placeholder: "Search Goals", class: "search-input" %>
-    <%= f.submit "Search", class: "btn btn-secondary" %>
-  </div>
-<% end %>
+<%= link_to '新しい目標を作成', new_goal_path, class: 'btn btn-primary' %>
 
 <table>
   <thead>
     <tr>
       <th>目標</th>
       <th>締め切り</th>
+      <th>状態</th>
       <th>詳細</th>
       <th>削除</th>
     </tr>
@@ -24,32 +17,10 @@
       <tr>
         <td><%= goal.title %></td>
         <td><%= goal.deadline %></td>
+        <td><%= goal.status %></td>
         <td><%= link_to '詳細', goal_path(goal) %></td>
-        <td>
-          <%= link_to '削除', goal_path(goal), method: :delete, data: { confirm: '本当に削除しますか？' } %>
-        </td>
+        <td><%= link_to '削除', goal_path(goal), method: :delete, data: { confirm: '本当に削除しますか？' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<hr>
-
-<h3>テキスト入力とスコア計算</h3>
-<%= form_with url: score_calculation_goals_path, method: :post, local: true do |form| %>
-  <div>
-    <%= form.label :text, "テキストを入力してください:" %>
-    <%= form.text_area :text, rows: 3, placeholder: "ここにテキストを入力..." %>
-  </div>
-  <div>
-    <%= form.submit "スコアを計算", class: "btn btn-primary" %>
-  </div>
-<% end %>
-
-<!-- スコア表示 -->
-<% if flash[:notice] %>
-  <div>
-    <h4>スコア計算結果:</h4>
-    <p><%= flash[:notice] %></p>
-  </div>
-<% end %>

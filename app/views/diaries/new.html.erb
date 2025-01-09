@@ -1,22 +1,31 @@
+<% content_for :title, "新しい日記を作成" %>
+
 <h1>新しい日記を作成</h1>
 
 <%= form_with model: [@goal, @diary], local: true do |form| %>
-  <div>
-    <%= form.label :content, "日記の内容" %>
-    <%= form.text_area :content, required: true %>
-  </div>
+  <% if @diary.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@diary.errors.count, "error") %> prohibited this diary from being saved:</h2>
+      <ul>
+        <% @diary.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
-  <div>
+  <%= form.label :content, "日記の内容" %>
+  <%= form.text_area :content, rows: 4, cols: 50 %>
+
+  <%= form.label :intensity, "強度" %>
+  <%= form.number_field :intensity %>
+
+  <% if @goal.emotions.present? %>  <!-- 感情データが存在する場合 -->
     <%= form.label :emotion, "感情" %>
-    <%= form.select :emotion, ["嬉しい", "悲しい", "普通"], required: true %>
-  </div>
+    <%= form.collection_select :emotion_id, @goal.emotions, :id, :name, include_blank: "感情を選んでください" %>
+  <% else %>  <!-- 感情データがない場合 -->
+    <p>感情データがありません。</p>
+  <% end %>
 
-  <div>
-    <%= form.label :intensity, "強度" %>
-    <%= form.number_field :intensity, in: 1..10, step: 1, required: true %>
-  </div>
-
-  <%= form.submit "日記を保存する", class: "btn btn-primary" %>
+  <%= form.submit "保存" %>
 <% end %>
-
-<%= link_to "戻る", goal_path(@goal), class: "btn btn-secondary" %>

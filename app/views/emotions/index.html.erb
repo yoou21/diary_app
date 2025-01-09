@@ -1,0 +1,14 @@
+<h2>感情カレンダー</h2>
+
+<%= calendar month: Date.today do |date| %>
+  <% # emotion を @emotions から取得する %>
+  <% emotion = @emotions.find_by(date: date) %>
+
+  <div class="calendar-day <%= 'has-emotion' if emotion %>" style="background-color: <%= emotion_color(date.day) %>;">
+    <%= date.day %>  <!-- 日付を表示 -->
+
+    <% if emotion %>
+      <span class="emotion-score"><%= emotion.score %></span> <!-- 感情スコアを表示 -->
+    <% end %>
+  </div>
+<% end %>

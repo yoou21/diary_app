@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_12_17_143800) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_08_115516) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,6 +21,11 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_17_143800) do
     t.bigint "goal_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "emotion_score", default: 0
+    t.text "emotion_data", default: [], array: true
+    t.integer "user_id"
+    t.date "date"
+    t.integer "emotion_id"
     t.index ["goal_id"], name: "index_diaries_on_goal_id"
   end
 
@@ -29,6 +34,21 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_17_143800) do
     t.integer "score"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "emotions", force: :cascade do |t|
+    t.string "word"
+    t.integer "score"
+    t.bigint "diary_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.date "date"
+    t.string "name"
+    t.integer "user_id"
+    t.bigint "goal_id", null: false
+    t.index ["diary_id"], name: "index_emotions_on_diary_id"
+    t.index ["goal_id"], name: "index_emotions_on_goal_id"
+    t.index ["user_id"], name: "index_emotions_on_user_id"
   end
 
   create_table "goals", force: :cascade do |t|
@@ -63,5 +83,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_17_143800) do
   end
 
   add_foreign_key "diaries", "goals"
+  add_foreign_key "emotions", "diaries"
+  add_foreign_key "emotions", "goals"
   add_foreign_key "goals", "users"
 end
