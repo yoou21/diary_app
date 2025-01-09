@@ -20,9 +20,13 @@ class User < ApplicationRecord
 
   # デフォルトの感情データを作成
   def create_default_emotions
-    Emotion.create!(name: '嬉しい', word: '喜び', score: 3, user_id: self.id, date: Date.today)
-    Emotion.create!(name: '悲しい', word: '悲しみ', score: -1, user_id: self.id, date: Date.today)
-    Emotion.create!(name: '楽しい', word: '楽しみ', score: 2, user_id: self.id, date: Date.today)
-    Emotion.create!(name: '怒り', word: '怒り', score: -2, user_id: self.id, date: Date.today)
+    # デフォルトのGoalを作成
+    default_goal = goals.create!(title: "Default Goal", status: "未達成", deadline: Date.today + 30.days)
+
+    # Goalを関連付けてEmotionを作成
+    emotions.create!(name: '嬉しい', word: '喜び', score: 3, date: Date.today, goal: default_goal)
+    emotions.create!(name: '悲しい', word: '悲しみ', score: -1, date: Date.today, goal: default_goal)
+    emotions.create!(name: '楽しい', word: '楽しみ', score: 2, date: Date.today, goal: default_goal)
+    emotions.create!(name: '怒り', word: '怒り', score: -2, date: Date.today, goal: default_goal)
   end
 end
