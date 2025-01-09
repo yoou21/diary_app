@@ -1,4 +1,10 @@
 ja:
   app:
-    home_title: ホーム | 目標管理アプリ
-    dashboard_title: ダッシュボード
+    home_title: "ホーム | 目標管理アプリ"
+    dashboard_title: "ダッシュボード | 目標管理アプリ"
+  devise:
+    sessions:
+      signed_out: "ログアウトしました"
+      signed_in: "ログインしました"
+    failure:
+      invalid: "メールアドレスまたはパスワードが正しくありません。"
