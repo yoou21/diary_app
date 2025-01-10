@@ -8,8 +8,22 @@ ja:
       signed_in: "ログインしました"
     failure:
       invalid: "メールアドレスまたはパスワードが正しくありません。"
+    registrations:
+      signed_up: "登録が完了しました。"
+      user:
+        signed_up: "ユーザーの登録が完了しました。"
+    views:
+      password:
+        minimum_length: "パスワードは8文字以上で、大文字と数字を含めてください。"
   errors:
     messages:
       not_saved: "保存できませんでした"
       taken: "すでに存在します"
       already_taken: "このメールアドレスはすでに使用されています"
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            password:
+              invalid:  "パスワードは8文字以上で、少なくとも1つの大文字と数字を含めてください。"

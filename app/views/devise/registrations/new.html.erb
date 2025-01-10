@@ -7,9 +7,15 @@
   <div class="field">
     <%= f.label :password %>
     <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em>
+      <em>(パスワードは<%= @minimum_password_length %>文字以上です)</em>
     <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
+    <%= f.password_field :password, autocomplete: "new-password", placeholder: t('devise.views.password.minimum_length') %>
+
+    <% if resource.errors[:password].any? %>
+      <div class="error-message" style="color: red; margin-top: 5px;">
+        <%= resource.errors[:password].first %>
+      </div>
+    <% end %>
   </div>
 
   <div class="field">
@@ -18,9 +24,6 @@
   </div>
 
   <div class="actions">
-    <%= f.submit "登録する" %> <!-- 「登録する」のボタンを表示 -->
+    <%= f.submit "登録する" %>
   </div>
 <% end %>
-
-<!-- 「Log in」リンクを削除 -->
-<!-- <%= link_to "Log in", new_user_session_path %> -->

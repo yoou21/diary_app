@@ -9,9 +9,9 @@ class User < ApplicationRecord
 
   # パスワード強度のバリデーション
   validates :password, presence: true, length: { minimum: 8 }, format: {
-    with: /\A(?=.*[A-Z])(?=.*\d).+\z/,
-    message: "は8文字以上で、少なくとも1つの大文字と数字を含めてください"
-  }, on: :create
+  with: /\A(?=.*[A-Z])(?=.*\d).+\z/,
+  message: I18n.t('activerecord.errors.models.user.attributes.password.invalid')
+}, on: :create
 
   # 新しいユーザーが作成されたときにデフォルトの感情データを作成
   after_create :create_default_emotions
