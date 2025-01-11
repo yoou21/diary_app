@@ -22,10 +22,9 @@ class DiariesController < ApplicationController
 
     emotion = Emotion.find_by(id: params[:diary][:emotion_id])
 
-    if emotion.present? && !@diary.emotions.include?(emotion)
+    if emotion.present? && !@diary.emotions.exists?(id: emotion.id)
       # 感情を新規に関連付け
       @diary.emotions << emotion
-      # 感情にdiary_idを設定
       emotion.update(diary_id: @diary.id)
     end
 

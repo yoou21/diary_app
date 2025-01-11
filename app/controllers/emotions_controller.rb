@@ -13,12 +13,14 @@ class EmotionsController < ApplicationController
     # スコアの更新
     @emotion.score = params[:emotion][:score]
 
-    if @emotion.save
+    if @emotion.new_record? && @emotion.save
       flash[:notice] = "感情を記録しました。"
-      redirect_to dashboard_path
+    elsif @emotion.persisted? && @emotion.changed? && @emotion.save
+      flash[:notice] = "感情が更新されました。"
     else
       flash[:alert] = "感情の記録に失敗しました。"
-      render :new
     end
+
+    redirect_to dashboard_path
   end
 end
