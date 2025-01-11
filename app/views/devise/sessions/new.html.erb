@@ -1,24 +1,22 @@
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+<div style="max-width: 800px; margin: 50px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+  <% content_for :title, "ログイン | 目標管理アプリ" %>
+  <h1>ログイン</h1>
+  <p>アカウントをお持ちの方は、以下のフォームからログインしてください。</p>
 
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <table>
+      <tr>
+        <td><%= f.label :email, "メールアドレス" %></td>
+        <td><%= f.email_field :email, autofocus: true, autocomplete: "email" %></td>
+      </tr>
+      <tr>
+        <td><%= f.label :password, "パスワード" %></td>
+        <td><%= f.password_field :password, autocomplete: "new-password" %></td>
+      </tr>
+    </table>
 
-  <div class="field">
-    <%= f.check_box :remember_me %>
-    <%= f.label :remember_me %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "ログイン" %>
-  </div>
-<% end %>
-
-<!-- Sign upとForgot your password?を削除 -->
-<!-- <%= link_to "Sign up", new_user_registration_path %> -->
-<!-- <%= link_to "Forgot your password?", new_user_password_path %> -->
+    <div style="text-align: center; margin-top: 20px;">
+      <%= f.submit "ログイン", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>

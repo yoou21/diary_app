@@ -1,29 +1,31 @@
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+<div style="max-width: 800px; margin: 50px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+  <h1>ユーザー登録</h1>
+  <p>以下のフォームに必要な情報を入力して、アカウントを作成してください。</p>
 
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-      <em>(パスワードは<%= @minimum_password_length %>文字以上です)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password", placeholder: t('devise.views.password.minimum_length') %>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <table>
+      <tr>
+        <td><%= f.label :email, "メールアドレス" %></td>
+        <td><%= f.email_field :email, autofocus: true, autocomplete: "email" %></td>
+      </tr>
+      <tr>
+        <td><%= f.label :password, "パスワード" %></td>
+        <td>
+          <% if @minimum_password_length %>
+            <small>(パスワードは<%= @minimum_password_length %>文字以上です)</small>
+          <% end %>
+          <br>
+          <%= f.password_field :password, autocomplete: "new-password", placeholder: t('devise.views.password.minimum_length') %>
+        </td>
+      </tr>
+      <tr>
+        <td><%= f.label :password_confirmation, "パスワード（確認用）" %></td>
+        <td><%= f.password_field :password_confirmation, autocomplete: "new-password" %></td>
+      </tr>
+    </table>
 
-    <% if resource.errors[:password].any? %>
-      <div class="error-message" style="color: red; margin-top: 5px;">
-        <%= resource.errors[:password].first %>
-      </div>
-    <% end %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "登録する" %>
-  </div>
-<% end %>
+    <div style="text-align: center; margin-top: 20px;">
+      <%= f.submit "登録する", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>

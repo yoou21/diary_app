@@ -9,9 +9,9 @@ ja:
     failure:
       invalid: "メールアドレスまたはパスワードが正しくありません。"
     registrations:
-      signed_up: "登録が完了しました。"
-      user:
-        signed_up: "ユーザーの登録が完了しました。"
+      signed_up: "アカウントが作成されました。ログインしてください。"
+      failure:
+        signed_up: "登録に失敗しました。入力内容をご確認ください。"
     views:
       password:
         minimum_length: "パスワードは8文字以上で、大文字と数字を含めてください。"
@@ -26,4 +26,4 @@ ja:
         user:
           attributes:
             password:
-              invalid:  "パスワードは8文字以上で、少なくとも1つの大文字と数字を含めてください。"
+              invalid: "パスワードは8文字以上で、少なくとも1つの大文字と数字を含めてください。"

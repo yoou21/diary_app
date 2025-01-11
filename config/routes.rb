@@ -2,8 +2,10 @@ Rails.application.routes.draw do
   # トップページ
   root to: 'home#index'
 
-  # Deviseルーティング
-  devise_for :users
+  # Devise
+  devise_for :users, controllers: {
+    registrations: 'users/registrations'
+  }
 
   # ホームページ・ダッシュボード
   get 'dashboard', to: 'dashboard#index', as: 'dashboard'
