@@ -37,16 +37,18 @@ class DiariesController < ApplicationController
   end
 
   def show
-    @goal = Goal.find_by(id: params[:id])
+    @goal = Goal.find_by(id: params[:goal_id])
 
     if @goal.nil?
       redirect_to goals_path, alert: "指定された目標は存在しません。"
       return
     end
 
-    @diary = Diary.find_by(id: params[:id])  # ここで日記を取得
-    @emotions = Emotion.where(date: Date.today.beginning_of_month..Date.today.end_of_month, user_id: current_user.id)
-    @diaries = Diary.where(goal_id: @goal.id, user_id: current_user.id)
+    @diary = @goal.diaries.find_by(id: params[:id])
+
+    if @diary.nil?
+      redirect_to goal_diaries_path(@goal), alert: "指定された日記は存在しません。"
+    end
   end
 
   def destroy

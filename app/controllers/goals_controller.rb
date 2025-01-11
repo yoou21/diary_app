@@ -15,32 +15,30 @@ class GoalsController < ApplicationController
   end
 
   def index
-    # 現在のユーザーの目標を取得
     @goals = current_user.goals
-
-    # もし目標がない場合の処理
-    if @goals.empty?
-      flash[:alert] = '目標がありません。'
-    end
+    flash[:alert] = '目標がありません。' if @goals.empty?
   end
 
   def show
-    logger.debug "Params ID: #{params[:id]}"
-    @goal = Goal.find_by(id: params[:id])
+    @goal = current_user.goals.find_by(id: params[:id])
     if @goal.nil?
       redirect_to goals_path, alert: "指定された目標は存在しません。"
     end
   end
+
   def destroy
     @goal = current_user.goals.find(params[:id])
-    @goal.destroy
-    redirect_to dashboard_path, notice: '目標が削除されました。'
+    if @goal.destroy
+      redirect_to dashboard_path, notice: '目標が削除されました。'
+    else
+      redirect_to goals_path, alert: '目標の削除に失敗しました。'
+    end
   end
 
   def score_calculation
-    text = params[:text] # 入力されたテキストを受け取る
-    service = DictionaryService.new(text) # 辞書サービスでスコア計算
-    @score = service.calculate_score # スコアをインスタンス変数に代入
+    text = params[:text]
+    service = DictionaryService.new(text)
+    @score = service.calculate_score
 
     respond_to do |format|
       format.html { redirect_to goals_path, notice: "スコア: #{@score}" }
