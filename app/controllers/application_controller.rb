@@ -14,9 +14,21 @@ class ApplicationController < ActionController::Base
     root_path  # ホームページにリダイレクト
   end
 
-  # 🔧 ユーザー登録後にログイン画面へリダイレクト
-  def after_sign_up_path_for(resource)
-    flash[:notice] = t('devise.registrations.signed_up')  # 登録成功時のフラッシュメッセージ
-    new_user_session_path  # ログイン画面へリダイレクト
+  # Turbo Streams 対応のフラッシュメッセージをレンダリング
+  after_action :flash_to_turbo_stream, if: -> { request.format.turbo_stream? && !devise_controller? }
+
+  private
+
+  # Turbo Stream でフラッシュメッセージを HTML 文字列として直接返す
+  def flash_to_turbo_stream
+    return unless flash.any?
+    return if performed?  # すでにレンダリングされている場合は何もしない
+
+    flash_html = flash.map do |key, message|
+      view_context.tag.div(message, class: "flash-message flash-#{key}")
+    end.join
+
+    render turbo_stream: turbo_stream.update('flash-messages', html: flash_html)
+    flash.discard
   end
 end
