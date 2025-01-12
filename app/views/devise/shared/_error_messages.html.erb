@@ -1,4 +1,8 @@
-<% if resource.errors.any? %>
+<% if flash[:alert].present? %>
+  <div id="flash-alert" style="color: red; margin-bottom: 20px;">
+    <%= flash[:alert] %>
+  </div>
+<% elsif resource.errors.any? %>
   <div id="error_explanation" data-turbo-cache="false">
     <h2>
       <%= I18n.t("errors.messages.not_saved",

@@ -10,7 +10,3 @@ user = User.find_or_create_by!(email: 'test@example.com') do |u|
   u.password = 'Password123'  # パスワード設定
   u.password_confirmation = 'Password123'  # パスワード確認
 end
-
-# デフォルトのGoalを作成
-goal = user.goals.find_or_create_by!(title: "Default Goal", status: "未達成", deadline: Date.today + 30.days)
-

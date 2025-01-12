@@ -24,8 +24,8 @@
 
   <!-- Flashメッセージの表示エリア（Turbo Streamsで更新される） -->
   <div id="flash-messages">
-    <% flash.each do |key, message| %>
-      <div class="flash-message flash-<%= key %>">
+    <% flash.to_h.values.uniq.each do |message| %>
+      <div class="flash-message alert alert-danger">
         <%= message %>
       </div>
     <% end %>

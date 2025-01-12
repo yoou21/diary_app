@@ -1,4 +1,16 @@
 ja:
   devise:
+    sessions:
+      signed_out: "ログアウトしました"
+      signed_in: "ログインしました"
     failure:
+      invalid: "無効なログイン情報です。"
+      not_found_in_database: "メールアドレスまたはパスワードが正しくありません。"
       already_authenticated: "すでにログインしています。"
+    registrations:
+      signed_up: "アカウントが作成されました。ログインしてください。"
+      failure:
+        signed_up: "登録に失敗しました。入力内容をご確認ください。"
+    views:
+      password:
+        minimum_length: "パスワードは8文字以上で、大文字と数字を含めてください。"

@@ -2,19 +2,6 @@ ja:
   app:
     home_title: "ホーム | 目標管理アプリ"
     dashboard_title: "ダッシュボード | 目標管理アプリ"
-  devise:
-    sessions:
-      signed_out: "ログアウトしました"
-      signed_in: "ログインしました"
-    failure:
-      invalid: "メールアドレスまたはパスワードが正しくありません。"
-    registrations:
-      signed_up: "アカウントが作成されました。ログインしてください。"
-      failure:
-        signed_up: "登録に失敗しました。入力内容をご確認ください。"
-    views:
-      password:
-        minimum_length: "パスワードは8文字以上で、大文字と数字を含めてください。"
   errors:
     messages:
       not_saved: "保存できませんでした"
