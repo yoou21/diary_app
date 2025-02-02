@@ -3,19 +3,22 @@ class DiariesController < ApplicationController
   before_action :set_goal, only: [:new, :create, :index]
   before_action :set_diary, only: [:show, :destroy]
 
+  # 日記の一覧表示
   def index
     @goal = Goal.find(params[:goal_id])
     @diaries = @goal.diaries.where(user_id: current_user.id)
     @emotions_by_date = Emotion.where(user_id: current_user.id).group_by(&:date)
   end
 
+  # 日記の新規作成ページ
   def new
     @diary = Diary.new
     @goal = Goal.find(params[:goal_id])
     @emotions = Emotion.where(user_id: current_user.id, goal_id: @goal.id) # 感情データ取得
-    puts @emotions.inspect  # デバッグ用に感情データを表示
+    puts @emotions.inspect  # デバッグ用
   end
 
+  # 日記の作成処理
   def create
     @diary = @goal.diaries.new(diary_params)
     @diary.user = current_user
@@ -23,7 +26,6 @@ class DiariesController < ApplicationController
     emotion = Emotion.find_by(id: params[:diary][:emotion_id])
 
     if emotion.present? && !@diary.emotions.exists?(id: emotion.id)
-      # 感情を新規に関連付け
       @diary.emotions << emotion
       emotion.update(diary_id: @diary.id)
     end
@@ -35,6 +37,7 @@ class DiariesController < ApplicationController
     end
   end
 
+  # 日記の詳細表示
   def show
     @goal = Goal.find_by(id: params[:goal_id])
 
@@ -50,30 +53,34 @@ class DiariesController < ApplicationController
     end
   end
 
+  # 感情スコアをJSON形式で提供（Chart.js用）
+  def emotion_scores
+    diaries = current_user.diaries.order(created_at: :asc)
+    render json: diaries.map { |d| { date: d.created_at.strftime('%Y-%m-%d'), score: d.emotion_score } }
+  end
+
   def destroy
-    @goal = Goal.find(params[:goal_id])
-    @diary = @goal.diaries.find(params[:id])  # Goalの中で特定のDiaryを探す
+    @diary = Diary.find_by(id: params[:id], goal_id: params[:goal_id])
 
-    # Diaryとその関連するEmotionを削除
-    @diary.destroy
-
-    redirect_to goal_diaries_path(@goal), notice: '日記が削除されました。'
+    if @diary.nil?
+      redirect_to goal_diaries_path(params[:goal_id]), alert: "日記が見つかりません。"
+    else
+      @diary.destroy
+      redirect_to goal_diaries_path(params[:goal_id]), notice: "日記が削除されました。"
+    end
   end
 
   private
 
   def set_goal
-    @goal = Goal.find_by(id: params[:goal_id])
-    if @goal.nil?
-      redirect_to goals_path, alert: '指定された目標が見つかりませんでした。'
-    end
+    @goal = Goal.find(params[:goal_id])
   end
 
   def set_diary
-    @diary = Diary.find(params[:id])
+    @diary = @goal.diaries.find_by(id: params[:id])
   end
 
   def diary_params
-    params.require(:diary).permit(:content, :intensity, :emotion_id)
+    params.require(:diary).permit(:content, :intensity, :emotion_score)
   end
 end

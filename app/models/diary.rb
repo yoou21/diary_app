@@ -5,37 +5,35 @@ class Diary < ApplicationRecord
 
   validates :content, presence: true
   validates :intensity, numericality: { only_integer: true, greater_than: -5, less_than_or_equal_to: 5 }
+  validates :date, presence: true  # NULL を防ぐバリデーション
 
-  # 日記作成時に感情データを作成
-  after_create :create_emotion_data
+  before_save :calculate_emotion_score
+  before_validation :set_default_date, on: :create  # デフォルトの日付をセット
 
-  # 感情スコアを計算するメソッド
-  def calculate_emotion_score
-    total_score = 0
-
-    # emotion_dataに含まれる感情に基づいてスコアを加算
-    self.emotions.each do |emotion|
-      # DictionaryEntryからスコアを取得して加算
-      entry = DictionaryEntry.find_by(word: emotion.word)
-      total_score += entry.score if entry
-    end
-
-    # 計算したスコアをDiaryのフィールドに保存
-    self.update(emotion_score: total_score)
-  end
+  # 日記データをAPI用に取得するスコープ
+  scope :recent_scores, -> { select(:created_at, :emotion_score).order(created_at: :asc) }
 
   private
 
-  def create_emotion_data
-    emotions = ['喜び', '悲しみ', '不安', '楽しみ']  # 使用する感情のリスト（必要に応じて変更）
-
-    emotions.each do |emotion_word|
-      # Emotionモデルに感情データを作成
-      emotion = Emotion.create!(user: self.user, goal_id: self.goal_id, word: emotion_word, name: emotion_word, date: Date.today)
-      self.emotions << emotion # 作成した感情を日記に関連づける
+  # 感情スコアの計算
+  def calculate_emotion_score
+    self.emotion_score = emotions.sum do |emotion|
+      DictionaryEntry.find_by(word: emotion.word)&.score.to_i
     end
+  end
 
-    # 作成後にスコアを計算
-    calculate_emotion_score
+  # 日記作成時に感情データを自動生成
+  after_create :create_emotion_data
+
+  def create_emotion_data
+    emotion_words = ['喜び', '悲しみ', '不安', '楽しみ']  # 必要に応じて変更
+    emotion_words.each do |word|
+      self.emotions.create!(user: user, goal_id: goal_id, word: word, name: word, date: Date.today)
+    end
+  end
+
+  # `date` が NULL の場合に `Date.today` を設定
+  def set_default_date
+    self.date ||= Date.today
   end
 end

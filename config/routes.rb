@@ -12,9 +12,22 @@ Rails.application.routes.draw do
 
   # 目標（goals）と日記（diaries）のルーティング
   resources :goals, only: [:new, :create, :index, :show, :destroy] do
-    resources :diaries, only: [:new, :create, :index, :show, :destroy]
+    resources :diaries, only: [:new, :create, :index, :show, :destroy] do
+      collection do
+        get :emotion_scores  # API用エンドポイント
+      end
+    end
     collection do
       post :score_calculation, to: 'goals#score_calculation', as: 'score_calculation'
+    end
+  end
+
+  # API用のルーティング
+  namespace :api do
+    resources :diary_entries, only: [:index] do
+      collection do
+        get :emotion_summary
+      end
     end
   end
 
