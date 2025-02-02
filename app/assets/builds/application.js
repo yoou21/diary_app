@@ -23354,6 +23354,102 @@ var chart_controller_default = class extends Controller {
   }
 };
 
+// app/javascript/controllers/diary_chart_controller.js
+var diary_chart_controller_default = class extends Controller {
+  static targets = ["lineChart", "pieChart"];
+  async connect() {
+    console.log("\u{1F4CA} DiaryChartController Loaded!");
+    window.Chart = auto_default;
+    console.log("\u2705 Chart.js:", auto_default);
+    await this.renderLineChart();
+    await this.renderPieChart.bind(this)();
+  }
+  async fetchDiaryEntries() {
+    try {
+      const response = await fetch("/api/diary_entries");
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      const data = await response.json();
+      console.log("\u2705 fetchDiaryEntries \u30C7\u30FC\u30BF:", data);
+      return data;
+    } catch (error2) {
+      console.error("\u274C fetchDiaryEntries \u30A8\u30E9\u30FC:", error2);
+      return [];
+    }
+  }
+  async fetchEmotionSummary() {
+    try {
+      const response = await fetch("/api/diary_entries/emotion_summary");
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      const data = await response.json();
+      console.log("\u2705 fetchEmotionSummary \u30C7\u30FC\u30BF:", data);
+      return data;
+    } catch (error2) {
+      console.error("\u274C fetchEmotionSummary \u30A8\u30E9\u30FC:", error2);
+      return {};
+    }
+  }
+  async renderLineChart() {
+    const diaryEntries = await this.fetchDiaryEntries();
+    const labels = diaryEntries.map((entry) => entry.date);
+    const data = diaryEntries.map((entry) => entry.emotion_score);
+    console.log("\u{1F4C5} \u30E9\u30A4\u30F3\u30C1\u30E3\u30FC\u30C8\u306E\u30E9\u30D9\u30EB:", labels);
+    console.log("\u{1F3AD} \u30E9\u30A4\u30F3\u30C1\u30E3\u30FC\u30C8\u306E\u30C7\u30FC\u30BF:", data);
+    if (!this.lineChartTarget) {
+      console.error("\u274C LineChart \u306E `canvas` \u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093");
+      return;
+    }
+    try {
+      new auto_default(this.lineChartTarget, {
+        type: "line",
+        data: {
+          labels,
+          datasets: [{
+            label: "\u611F\u60C5\u30B9\u30B3\u30A2\u306E\u63A8\u79FB",
+            data,
+            borderColor: "blue",
+            backgroundColor: "rgba(0, 0, 255, 0.2)",
+            // 軽い背景色
+            fill: false,
+            // ← カンマを追加
+            tension: 0.3
+            // 線を滑らかにする
+          }]
+        },
+        options: { responsive: true }
+      });
+    } catch (error2) {
+      console.error("\u274C Chart.js \u30E9\u30A4\u30F3\u30C1\u30E3\u30FC\u30C8 \u30A8\u30E9\u30FC:", error2);
+    }
+  }
+  async renderPieChart() {
+    const summary = await this.fetchEmotionSummary();
+    const labels = Object.keys(summary);
+    const data = Object.values(summary);
+    console.log("\u{1F967} \u30D1\u30A4\u30C1\u30E3\u30FC\u30C8\u306E\u30E9\u30D9\u30EB:", labels);
+    console.log("\u{1F4CA} \u30D1\u30A4\u30C1\u30E3\u30FC\u30C8\u306E\u30C7\u30FC\u30BF:", data);
+    if (!this.pieChartTarget) {
+      console.error("\u274C PieChart \u306E `canvas` \u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093");
+      return;
+    }
+    try {
+      new auto_default(this.pieChartTarget, {
+        type: "pie",
+        data: {
+          labels,
+          datasets: [{
+            label: "\u611F\u60C5\u306E\u5272\u5408",
+            data,
+            backgroundColor: ["blue", "red", "gray"]
+          }]
+        },
+        options: { responsive: true }
+      });
+    } catch (error2) {
+      console.error("\u274C Chart.js \u30D1\u30A4\u30C1\u30E3\u30FC\u30C8 \u30A8\u30E9\u30FC:", error2);
+    }
+  }
+};
+
 // app/javascript/controllers/hello_controller.js
 var hello_controller_default = class extends Controller {
   connect() {
@@ -23363,6 +23459,7 @@ var hello_controller_default = class extends Controller {
 
 // app/javascript/controllers/index.js
 application.register("chart", chart_controller_default);
+application.register("diary-chart", diary_chart_controller_default);
 application.register("hello", hello_controller_default);
 
 // app/javascript/application.js

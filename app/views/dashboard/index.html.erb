@@ -28,5 +28,14 @@
   <% end %>
 
   <%= link_to '目標を追加する', new_goal_path, class: 'btn btn-primary' %> <!-- 目標追加ボタン -->
+
+  <!-- 📊 感情スコアグラフ -->
+  <div data-controller="diary-chart" class="mt-8">
+    <h2 class="text-xl font-bold">感情スコアの推移</h2>
+    <canvas data-diary-chart-target="lineChart" class="w-full h-64"></canvas>
+
+    <h2 class="text-xl font-bold mt-8">感情の割合</h2>
+    <canvas data-diary-chart-target="pieChart" class="w-full h-64"></canvas>
+  </div>
 </body>
 </html>
